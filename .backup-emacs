@@ -48,6 +48,7 @@
 (global-set-key (kbd "C-c C-f")        'mc/skip-to-next-like-this)
 (global-set-key (kbd "C-c C-b")        'mc/skip-to-previous-like-this)
 
+;; equivalent to C-c C-v on Windows
 (defun rc/duplicate-line ()
   (interactive)
   (let ((column (- (point) (point-at-bol)))

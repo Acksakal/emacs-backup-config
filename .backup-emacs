@@ -1,0 +1,63 @@
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(multiple-cursors vertico)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(package-initialize)
+(add-to-list 'package-archives'("melpa" . "https://melpa.org/packages/"))
+
+;; Creates matching brackets
+(electric-pair-mode 1)
+
+;; Display line numbers
+(global-display-line-numbers-mode t)
+
+;; Activates vertico-mode
+(require 'vertico)
+(vertico-mode)
+
+;; no splash screen
+(setq inhibit-splash-screen t)
+
+;; disable menu on startup
+(menu-bar-mode -1)
+
+;; set "gnu" style indenting for c
+(setq c-default-style "linux"
+      c-basic-offset 4)
+
+;; set default theme
+(load-theme 'wombat t)
+
+(global-set-key (kbd "C-c e") 'eval-buffer)
+
+;; multiple cursors
+(require 'multiple-cursors)
+
+(global-set-key (kbd "C-c C-d")        'mc/edit-lines)
+(global-set-key (kbd "C-<right>")      'mc/mark-next-like-this)
+(global-set-key (kbd "C-<left>")       'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<right>")  'mc/mark-all-like-this)
+(global-set-key (kbd "C-c C-f")        'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-c C-b")        'mc/skip-to-previous-like-this)
+
+(defun rc/duplicate-line ()
+  (interactive)
+  (let ((column (- (point) (point-at-bol)))
+	(line (let ((s (thing-at-point 'line t)))
+		(if s (string-remove-suffix "\n" s) ""))))
+    (move-end-of-line 1)
+    (newline)
+    (insert line)
+    (move-beginning-of-line 1)
+    (forward-char column)))
+
+(global-set-key (kbd "C-f") 'rc/duplicate-line)
+
